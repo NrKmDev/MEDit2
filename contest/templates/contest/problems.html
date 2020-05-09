@@ -1,0 +1,68 @@
+{% extends 'contest/base.html' %}
+{% load static %}
+{% block content %}
+<style type="text/css">
+.feather {
+    width: 16px;
+    height: 16px;
+    vertical-align: text-bottom;
+}
+    body {
+  padding-top: 5rem;
+}
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+.red {
+        color: red;
+        font-size: large;
+    }
+</style>
+<main role="main" class="container">
+      <div class="starter-template">
+      <h1>{{contest.name}}</h1>
+            <a class="text-muted" href="{% url 'standings' contest.id %}">Standings</a>
+          
+        <hr>
+      <hr>
+      {% if has_not_started %}
+      <p><div class="red">This contest will start at {{contest.date_start}}. Please go back "Home".</div></p>
+      {% else %}
+      {% for problem in problems %}
+      <p class="lead">
+        Question:{{forloop.counter}}   {{problem.problem_name}}(Score:{{problem.problem_score}} points)
+      </p>
+      <p class="lead">
+        {{problem.problem_text}}
+      </p>
+      {% endfor %}
+      {% if not finished %}
+        <p><font size="5">Submit</font></p>
+        <form action="" method="post">{% csrf_token %}
+            {% for problem in problems%}
+            <p>答え({{forloop.counter}}):<input type="text" size="30" name="user_ans" id="choice{{forloop.counter}}"></p>
+            {% endfor %}
+                <nav class="navbar navbar-light bg-light">
+                    <div class="navbar-nav ml-auto">
+                        <button class="btn btn-outline-success" type="submit" value="Submit">Submit</button>
+                    </div>
+                </nav>
+        </form>
+        {% endif %}
+        {% for result in results %}
+            <p><font size="5">Result</font></p>
+            <p>({{forloop.counter}}):{{result}}</p>
+        {% endfor %}
+        {% if finished %}
+            <p>Contest Score: {{contest_score}}</p>
+            <p>Total Score: {{user_score}}</p>
+            <p><font size="5">The contest is over. Go back to "Home".</font></p>
+        {% endif %}
+        {% if warning %}
+            <p><font color="red">{{warning}}</font></p>
+        {% endif %}
+        {% endif %}
+    </div>
+</main>
+{% endblock content %}

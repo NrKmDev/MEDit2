@@ -1,0 +1,81 @@
+{% extends 'contest/base.html' %}
+{% load static %}
+{% block content %}
+{% if request.user.is_authenticated %}
+<style type="text/css">
+    .feather {
+        width: 16px;
+        height: 16px;
+        vertical-align: text-bottom;
+    }
+        body {
+      padding-top: 5rem;
+    }
+    .starter-template {
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+    .grey {
+        color: grey;
+        font-size: large;
+    }
+    .green {
+        color: green;
+        font-size: large;
+    }
+    .aqua {
+        color: aqua;
+        font-size: large;
+    }
+    .blue {
+        color: blue;
+        font-size: large;
+    }
+    .yellow {
+        color: yellow;
+        font-size: large;
+    }
+    .orange {
+        color: orange;
+        font-size: large;
+    }
+    .red {
+        color: red;
+        font-size: large;
+    }
+</style>
+<main role="main" class="container">
+    <div class="starter-template">
+    <h2>User</h2>
+    <div class="{{request.user.color}}"><p>{{request.user.username}}</p></div>
+    <h2>Rank</h2>
+    <p>{{rank}} th / {{users}}</p>
+    <h2>Total Score</h2>
+    <p><div class="{{request.user.color}}">{{request.user.score}}</div></p>
+    <h2>Affiliation</h2>
+    <p><div style="font-size:large;">{{request.user.affiliation}}</div></p>
+    <h2>Accept Friend Requests</h2>
+    {% for r in fr %}
+    <a class="text-muted" href="{% url 'accept_request' r.id %}"><font size="5">Accept {{r.from_user.username}}</font></a>
+    {% endfor %}
+    <h2>Friends</h2>
+    {% for friend in allfriends %}
+    <p>
+        <tr>
+            <td><div class="{{friend.color}}"><a class="text-muted" href="{% url 'other_profile' friend.id %}">{{friend.username}}</a></div></td>
+            {% if friend.is_authenticated %}
+            <td>Online</td>
+            {% else %}
+            <td>Offline</td>
+            {% endif %}
+        </tr>
+    </p>
+    {% endfor %}
+    <h2>Add To Your Friend List</h2>
+    {% for user in add_friends %}
+    <a class="text-muted" href="{% url 'send_request' user.id %}"><div class="{{user.color}}">{{user.username}}</div></a>
+    {% endfor %}
+{% endif %}
+</div>
+</main>
+{% endblock content %}

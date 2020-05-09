@@ -1,0 +1,73 @@
+{% extends 'contest/base.html' %}
+{% load static %}
+{% block content %}
+{% if request.user.is_authenticated %}
+<style type="text/css">
+    .feather {
+        width: 16px;
+        height: 16px;
+        vertical-align: text-bottom;
+    }
+        body {
+      padding-top: 5rem;
+    }
+    .starter-template {
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+    .grey {
+        color: grey;
+        font-size: large;
+    }
+    .green {
+        color: green;
+        font-size: large;
+    }
+    .aqua {
+        color: aqua;
+        font-size: large;
+    }
+    .blue {
+        color: blue;
+        font-size: large;
+    }
+    .yellow {
+        color: yellow;
+        font-size: large;
+    }
+    .orange {
+        color: orange;
+        font-size: large;
+    }
+    .red {
+        color: red;
+        font-size: large;
+    }
+</style>
+<main role="main" class="container">
+    <div class="starter-template">
+    <h2>User</h2>
+    <p><div class="{{other_user.color}}">{{other_user.username}}</div></p>
+    <h2>Rank</h2>
+    <p>{{rank}} th / {{users}}</p>
+    <h2>Total Score</h2>
+    <p>{{other_user.score}}</p>
+    <h2>Affiliation</h2>
+    <p><div style="font-size:large;">{{request.user.affiliation}}</div></p>
+    <h2>Friends</h2>
+    {% for friend in allfriends %}
+    <p>
+        <tr>
+            <td><a class="text-muted" href="{% url 'other_profile' friend.id %}"><div class="{{friend.color}}">{{friend.username}}</div></a></td>
+            {% if friend.is_authenticated %}
+            <td>Online</td>
+            {% else %}
+            <td>Offline</td>
+            {% endif %}
+        </tr>
+    </p>
+    {% endfor %}
+{% endif %}
+</div>
+</main>
+{% endblock content %}

@@ -1,0 +1,81 @@
+{% extends 'contest/base.html' %}
+{% load static %}
+{% block content %}
+<style type="text/css">
+    .feather {
+    width: 16px;
+    height: 16px;
+    vertical-align: text-bottom;
+}
+body {
+  padding-top: 5rem;
+}
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+    .grey {
+        color: grey;
+        font-size: large;
+    }
+    .green {
+        color: green;
+        font-size: large;
+    }
+    .aqua {
+        color: aqua;
+        font-size: large;
+    }
+    .blue {
+        color: blue;
+        font-size: large;
+    }
+    .yellow {
+        color: yellow;
+        font-size: large;
+    }
+    .orange {
+        color: orange;
+        font-size: large;
+    }
+    .red {
+        color: red;
+        font-size: large;
+    }
+</style>
+<main role="main" class="container">
+    <div class="starter-template">
+        <h2>Contest Standings</h2>
+        <a class="text-muted" href="{% url 'problems' contest.id %}">Contest</a>
+        <hr>
+        <div class="table-responsive">
+        <table class="table table-striped table-sm">
+            <thead>
+            <tr>
+                <th>Rank</th>
+                <th>User</th>
+                {% for emp in empty %}
+                <th>Question:{{forloop.counter}}</th>
+                {% endfor %}
+                <th>Points</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for account,standing  in ast.items %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><a class="text-muted" href="{% url 'other_profile' account.id %}"><div class="account.color">{{account.username}}</div></a></td>
+                    {% for st in standing %}
+                    <td>{{st}}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+
+    </div>
+</main>
+
+
+{% endblock content %}
